@@ -54,7 +54,7 @@ class TicTacToe:
 			
 		else:
 			#move = self.get_random_ai_move()
-			move = self.get_ai_1_move()
+			move = self.get_ai_2_move()
 					
 		return move
 
@@ -177,6 +177,39 @@ class TicTacToe:
 		return random.randint(0,8)
 		
 	# AI 1 End ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+	# AI 2 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	# This AI is smarter, and will check if the player can win in the next move, and block it.
+
+	def get_ai_2_move(self):
+		
+		board = self.board
+
+		for winchance in TicTacToe.WIN_SET:
+
+			if board[winchance[0]] == 'X' and ( board[winchance[1]] == 'X' or board[winchance[2]] == 'X'):
+				
+				if board[winchance[0]] == board[winchance[1]] and board[winchance[2]] == ' ':
+					return winchance[2]
+
+				elif board[winchance[1]] == board[winchance[2]] and board[winchance[0]] == ' ':
+					return winchance[0]
+
+				elif board[winchance[0]] == board[winchance[2]] and board[winchance[1]] == ' ':
+					return winchance[1]
+
+		
+		# For the initial moves #
+		# try to go in the middle
+		# Otherwise, try a corner
+		if self.validateMove(4):
+			return 4
+
+		corners = (0,2,6,8)
+		move = random.choice(corners)
+		return move
+
+	# AI 2 End ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 	#================================================================================================
 
