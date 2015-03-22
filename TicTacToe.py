@@ -53,9 +53,9 @@ class TicTacToe:
 			move = self.get_human_move()
 			
 		else:
-			move = self.get_ai_move()
-			#move =	current_player.move(self.board)
-		
+			#move = self.get_random_ai_move()
+			move = self.get_ai_1_move()
+					
 		return move
 
 
@@ -123,8 +123,60 @@ class TicTacToe:
 		#Get a human players raw input
 		return input('[0-8] >> ')
 
-	def get_ai_move(self):
+	def get_random_ai_move(self):
 		return random.randint(0,8)
+
+	# AI 1: ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	def get_ai_1_move(self):
+
+		board = self.board
+
+		# if available, go middle.
+		if self.validateMove(4):
+			return 4
+
+		for winchance in TicTacToe.WIN_SET:
+
+			# Check for own moves O _ _
+			if board[winchance[0]] is 'O':
+				if board[winchance[1]] == ' ' and self.validateMove(winchance[1]):
+					return winchance[1]
+				elif board[winchance[2]] == ' ' and self.validateMove(winchance[2]):
+					return winchance[2]
+
+			# Check for own moves _ O _
+			if board[winchance[1]] is 'O':
+				if board[winchance[0]] == ' ' and self.validateMove(winchance[0]):
+					return winchance[0]
+				elif board[winchance[2]] == ' ' and self.validateMove(winchance[2]):
+					return winchance[2]
+
+			# Check for own moves _ _ O
+			if board[winchance[2]] is 'O':
+				if board[winchance[0]] == ' ' and self.validateMove(winchance[0]):
+					return winchance[0]
+				elif board[winchance[1]] == ' ' and self.validateMove(winchance[1]):
+					return winchance[1]
+
+			# check for moves like x _ x
+			if board[winchance[1]] is not 'O':
+				if board[winchance[0]] == board[winchance[2]] and self.validateMove(winchance[1]):
+					return winchance[1]
+			
+			# Check for two in a row, like: x x _
+			if board[winchance[2]] is not 'O':
+				if board[winchance[0]] == board[winchance[1]] and self.validateMove(winchance[2]):
+					return winchance[2]
+
+			# Check for two in a row, like: _ x x
+			if board[winchance[0]] is not 'O':
+				if board[winchance[1]] == board[winchance[2]] and self.validateMove(winchance[0]):
+					return winchance[0]
+
+		# For when it can't go in the middle
+		return random.randint(0,8)
+		
+	# AI 1 End ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 	#================================================================================================
 
